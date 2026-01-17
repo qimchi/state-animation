@@ -1,9 +1,8 @@
 import { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
-import { DopeLoader } from './DopeLoader';
 import './TxSuccessAnimation.css';
 
-type TxAnimPhase = 'idle' | 'fillingPill' | 'loader' | 'checkPop' | 'greenWipe' | 'revealSuccess';
+type TxAnimPhase = 'idle' | 'fillingPill' | 'checkPop' | 'greenWipe' | 'revealSuccess';
 
 const COLORS = {
   green: '#31CC66',
@@ -46,18 +45,10 @@ export const TxSuccessAnimation = forwardRef<TxSuccessAnimationRef, TxSuccessAni
 
     useEffect(() => {
       if (phase === 'fillingPill') {
-        // After pill fills, show loader
-        const timer = setTimeout(() => {
-          setPhase('loader');
-        }, 880);
-        return () => clearTimeout(timer);
-      }
-
-      if (phase === 'loader') {
-        // Show loader briefly, then quickly switch to checkmark
+        // After pill fills, go directly to checkmark
         const timer = setTimeout(() => {
           setPhase('checkPop');
-        }, 300); // Quick 300ms loader
+        }, 880);
         return () => clearTimeout(timer);
       }
 
@@ -99,16 +90,11 @@ export const TxSuccessAnimation = forwardRef<TxSuccessAnimationRef, TxSuccessAni
 
         {/* Pill Fill Animation */}
         {phase === 'fillingPill' && (
-          <PillFill onDone={() => setPhase('loader')} />
+          <PillFill onDone={() => setPhase('checkPop')} />
         )}
       </div>
 
-      {/* Loader - appears after pill fill, quickly switches to checkmark */}
-      {phase === 'loader' && (
-        <DopeLoader visible={true} />
-      )}
-
-      {/* Checkmark Pop - quickly appears after loader */}
+      {/* Checkmark Pop - appears after pill fill */}
       {phase === 'checkPop' && (
         <CheckmarkPop />
       )}

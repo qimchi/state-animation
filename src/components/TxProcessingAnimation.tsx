@@ -1,10 +1,9 @@
 import { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
-import { DopeLoader } from './DopeLoader';
 import { DopeHourglass } from './DopeHourglass';
 import './TxSuccessAnimation.css';
 
-type TxProcessingPhase = 'idle' | 'fillingPill' | 'loader' | 'hourglassPop' | 'revealProcessing';
+type TxProcessingPhase = 'idle' | 'fillingPill' | 'hourglassPop' | 'revealProcessing';
 
 interface TxProcessingAnimationProps {
   onRevealDone: () => void;
@@ -35,18 +34,10 @@ export const TxProcessingAnimation = forwardRef<TxProcessingAnimationRef, TxProc
 
     useEffect(() => {
       if (phase === 'fillingPill') {
-        // After pill fills, show loader
-        const timer = setTimeout(() => {
-          setPhase('loader');
-        }, 880);
-        return () => clearTimeout(timer);
-      }
-
-      if (phase === 'loader') {
-        // Show loader briefly, then quickly switch to hourglass
+        // After pill fills, go directly to hourglass
         const timer = setTimeout(() => {
           setPhase('hourglassPop');
-        }, 300); // Quick 300ms loader
+        }, 880);
         return () => clearTimeout(timer);
       }
 
@@ -80,16 +71,11 @@ export const TxProcessingAnimation = forwardRef<TxProcessingAnimationRef, TxProc
 
           {/* Pill Fill Animation */}
           {phase === 'fillingPill' && (
-            <PillFill onDone={() => setPhase('loader')} />
+            <PillFill onDone={() => setPhase('hourglassPop')} />
           )}
         </div>
 
-        {/* Loader - appears after pill fill, quickly switches to hourglass */}
-        {phase === 'loader' && (
-          <DopeLoader visible={true} />
-        )}
-
-        {/* Hourglass Pop - quickly appears after loader */}
+        {/* Hourglass Pop - appears after pill fill */}
         {phase === 'hourglassPop' && (
           <DopeHourglass visible={true} />
         )}
