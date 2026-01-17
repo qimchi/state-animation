@@ -1,0 +1,120 @@
+.tx-animation-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.center-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.dope-logo {
+  width: 200px;
+  height: auto;
+  max-width: 80%;
+}
+
+/* Pill Fill */
+.pill-container {
+  position: relative;
+  width: 134.75px;
+  height: 49px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pill-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.pill-logo-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13.364px 18.006px 11.285px 19.303px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.pill-dope-logo {
+  height: auto;
+  width: auto;
+  max-height: 24.351px;
+  object-fit: contain;
+}
+
+/* Checkmark */
+.checkmark-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  width: 72px;
+  height: 72px;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.checkmark-container svg {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+/* Success Page */
+.success-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #FFFFFF;
+  z-index: 30;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Green Overlay */
+.green-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #31CC66;
+  z-index: 35;
+  pointer-events: none;
+}
+
+.tx-details-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
