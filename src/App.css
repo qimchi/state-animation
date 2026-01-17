@@ -24,9 +24,15 @@ body {
   gap: 2rem;
 }
 
-.success-trigger-btn {
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.success-trigger-btn,
+.processing-trigger-btn {
   padding: 0.875rem 2rem;
-  background: #31CC66;
   color: white;
   border: none;
   border-radius: 8px;
@@ -38,12 +44,28 @@ body {
   letter-spacing: 0.01em;
 }
 
+.success-trigger-btn {
+  background: #31CC66;
+}
+
 .success-trigger-btn:hover {
   background: #2AB85A;
 }
 
 .success-trigger-btn:active {
   background: #28A852;
+}
+
+.processing-trigger-btn {
+  background: #FE9900;
+}
+
+.processing-trigger-btn:hover {
+  background: #e68900;
+}
+
+.processing-trigger-btn:active {
+  background: #cc7a00;
 }
 
 .mobile-frame {
