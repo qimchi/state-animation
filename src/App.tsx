@@ -1,13 +1,12 @@
-import React, { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { TxSuccessAnimation } from './components/TxSuccessAnimation';
 import './App.css';
 
 function App() {
-  const [showSuccess, setShowSuccess] = useState(false);
   const animationRef = useRef<{ start: () => void } | null>(null);
 
   const handleRevealDone = () => {
-    setShowSuccess(true);
+    // Animation completed
   };
 
   const handleSuccessClick = () => {

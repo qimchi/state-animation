@@ -182,9 +182,9 @@ export const TxSuccessAnimator = forwardRef<TxSuccessAnimatorRef, TxSuccessAnima
       }
     }, [autoStart, start]);
 
-    // Check for prefers-reduced-motion
-    const prefersReducedMotion = typeof window !== 'undefined' && 
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Check for prefers-reduced-motion (can be used for future accessibility features)
+    // const prefersReducedMotion = typeof window !== 'undefined' && 
+    //   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     return (
       <div className="tx-success-animator" style={{ position: 'relative', width: '100%', height: '100%' }}>
