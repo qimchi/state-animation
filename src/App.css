@@ -31,7 +31,8 @@ body {
 }
 
 .success-trigger-btn,
-.processing-trigger-btn {
+.processing-trigger-btn,
+.error-trigger-btn {
   padding: 0.875rem 2rem;
   color: white;
   border: none;
@@ -66,6 +67,18 @@ body {
 
 .processing-trigger-btn:active {
   background: #cc7a00;
+}
+
+.error-trigger-btn {
+  background: #FF3B30;
+}
+
+.error-trigger-btn:hover {
+  background: #E6352B;
+}
+
+.error-trigger-btn:active {
+  background: #CC2F26;
 }
 
 .mobile-frame {

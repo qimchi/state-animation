@@ -1,32 +1,32 @@
 import { useEffect, useState, useImperativeHandle, forwardRef, useCallback } from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { CircularLoader, LoaderToIcon } from './CircularLoader';
-import './TxProcessingAnimation.css';
+import './TxErrorAnimation.css';
 
-type TxProcessingPhase = 'idle' | 'fillingPill' | 'loaderSpinning' | 'loaderFilling' | 'hourglassPop' | 'grayWipe' | 'revealProcessing';
+type TxAnimPhase = 'idle' | 'fillingPill' | 'loaderSpinning' | 'loaderFilling' | 'xPop' | 'redWipe' | 'revealError';
 
 const COLORS = {
   green: '#31CC66',
   orange: '#FE9900',
   pink: '#FEA1CD',
   yellow: '#FECE00',
-  gray: '#9E9E9E',
+  red: '#FF3B30',
 };
 
 const COLOR_ORDER = [COLORS.green, COLORS.pink, COLORS.yellow, COLORS.orange] as const;
 
-interface TxProcessingAnimationProps {
+interface TxErrorAnimationProps {
   onRevealDone: () => void;
   autoStart?: boolean;
 }
 
-export interface TxProcessingAnimationRef {
+export interface TxErrorAnimationRef {
   start: () => void;
 }
 
-export const TxProcessingAnimation = forwardRef<TxProcessingAnimationRef, TxProcessingAnimationProps>(
+export const TxErrorAnimation = forwardRef<TxErrorAnimationRef, TxErrorAnimationProps>(
   ({ onRevealDone, autoStart = false }, ref) => {
-    const [phase, setPhase] = useState<TxProcessingPhase>('idle');
+    const [phase, setPhase] = useState<TxAnimPhase>('idle');
 
     const start = () => {
       setPhase('fillingPill');
@@ -43,7 +43,7 @@ export const TxProcessingAnimation = forwardRef<TxProcessingAnimationRef, TxProc
     }, [autoStart]);
 
     const handleLoaderFillComplete = useCallback(() => {
-      setPhase('hourglassPop');
+      setPhase('xPop');
     }, []);
 
     useEffect(() => {
@@ -61,21 +61,21 @@ export const TxProcessingAnimation = forwardRef<TxProcessingAnimationRef, TxProc
         return () => clearTimeout(timer);
       }
 
-      if (phase === 'hourglassPop') {
+      if (phase === 'xPop') {
         const timer = setTimeout(() => {
-          setPhase('grayWipe');
+          setPhase('redWipe');
         }, 500);
         return () => clearTimeout(timer);
       }
 
-      if (phase === 'grayWipe') {
+      if (phase === 'redWipe') {
         const timer = setTimeout(() => {
-          setPhase('revealProcessing');
+          setPhase('revealError');
         }, 2000);
         return () => clearTimeout(timer);
       }
 
-      if (phase === 'revealProcessing') {
+      if (phase === 'revealError') {
         const timer = setTimeout(() => {
           onRevealDone();
         }, 250);
@@ -84,59 +84,62 @@ export const TxProcessingAnimation = forwardRef<TxProcessingAnimationRef, TxProc
     }, [phase, onRevealDone]);
 
     return (
-      <div className="tx-processing-animation-container">
-        <div className="center-stage">
-          {phase === 'idle' && (
-            <img src="/images/dope-Logo-mark.png" alt="DOPE" className="dope-logo" />
-          )}
-          {phase === 'fillingPill' && (
-            <PillFill onDone={() => setPhase('loaderSpinning')} />
-          )}
-        </div>
-
-        {(phase === 'loaderSpinning' || phase === 'loaderFilling') && (
-          <CircularLoader
-            state={phase === 'loaderSpinning' ? 'spinning' : 'filling'}
-            targetColor={COLORS.gray}
-            onFillComplete={handleLoaderFillComplete}
-          />
+    <div className="tx-error-animation-container">
+      <div className="center-stage">
+        {phase === 'idle' && (
+          <img src="/images/dope-Logo-mark.png" alt="DOPE" className="dope-logo" />
         )}
-
-        {phase === 'hourglassPop' && (
-          <LoaderToIcon targetState="processing" />
-        )}
-
-        {(phase === 'grayWipe' || phase === 'revealProcessing') && (
-          <div className="processing-page">
-            <img
-              src="/images/tx-proc.png"
-              alt="Transaction Processing"
-              className="tx-details-image"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-              }}
-            />
-          </div>
-        )}
-
-        {phase === 'hourglassPop' && (
-          <motion.div
-            className="gray-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 1] }}
-            transition={{ duration: 0.1, delay: 0.4, ease: 'linear' }}
-          />
-        )}
-        {(phase === 'grayWipe' || phase === 'revealProcessing') && (
-          <motion.div
-            className="gray-overlay"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: phase === 'grayWipe' ? [1, 0] : 0 }}
-            transition={{ duration: phase === 'grayWipe' ? 0.45 : 0, ease: [0.4, 0, 0.2, 1] }}
-          />
+        {phase === 'fillingPill' && (
+          <PillFill onDone={() => setPhase('loaderSpinning')} />
         )}
       </div>
+
+      {(phase === 'loaderSpinning' || phase === 'loaderFilling') && (
+        <CircularLoader
+          state={phase === 'loaderSpinning' ? 'spinning' : 'filling'}
+          targetColor={COLORS.red}
+          onFillComplete={handleLoaderFillComplete}
+        />
+      )}
+
+      {phase === 'xPop' && (
+        <LoaderToIcon targetState="error" />
+      )}
+
+      {(phase === 'redWipe' || phase === 'revealError') && (
+        <div className="error-page">
+          <div className="error-content">
+            <div className="error-icon">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="32" fill="#FF3B30" fillOpacity="0.1"/>
+                <path d="M32 18C32.5523 18 33 18.4477 33 19V35C33 35.5523 32.5523 36 32 36C31.4477 36 31 35.5523 31 35V19C31 18.4477 31.4477 18 32 18Z" fill="#FF3B30" strokeWidth="2" />
+                <circle cx="32" cy="42" r="2" fill="#FF3B30"/>
+              </svg>
+            </div>
+            <h2 className="error-title">Something went wrong</h2>
+            <p className="error-message">Don't worry, it's not your fault. We couldn't complete your transaction. Please try again.</p>
+            <button className="error-retry-btn">Try Again</button>
+          </div>
+        </div>
+      )}
+
+      {phase === 'xPop' && (
+        <motion.div
+          className="red-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1] }}
+          transition={{ duration: 0.1, delay: 0.4, ease: 'linear' }}
+        />
+      )}
+      {(phase === 'redWipe' || phase === 'revealError') && (
+        <motion.div
+          className="red-overlay"
+          initial={{ opacity: 1 }}
+          animate={{ opacity: phase === 'redWipe' ? [1, 0] : 0 }}
+          transition={{ duration: phase === 'redWipe' ? 0.45 : 0, ease: [0.4, 0, 0.2, 1] }}
+        />
+      )}
+    </div>
     );
   }
 );
@@ -218,15 +221,15 @@ function PillFill({ onDone }: { onDone: () => void }) {
     <div className="pill-container">
       <svg width={PILL_W} height={PILL_H} className="pill-svg">
         <defs>
-          <clipPath id="pillClipProcessing"><rect x={0} y={0} width={PILL_W} height={PILL_H} rx={R} ry={R} /></clipPath>
-          <clipPath id="revealClipProcessing"><motion.rect x={0} y={0} height={PILL_H} style={{ width: revealWidth }} /></clipPath>
+          <clipPath id="errorPillClip"><rect x={0} y={0} width={PILL_W} height={PILL_H} rx={R} ry={R} /></clipPath>
+          <clipPath id="errorRevealClip"><motion.rect x={0} y={0} height={PILL_H} style={{ width: revealWidth }} /></clipPath>
         </defs>
         <rect x={0} y={0} width={PILL_W} height={PILL_H} rx={R} ry={R} fill="#fff" />
-        <g clipPath="url(#pillClipProcessing)">
+        <g clipPath="url(#errorPillClip)">
           <image href="/images/dope-Logo-mark.png" x={19.303} y={(PILL_H - 24.351) / 2} width={PILL_W - 19.303 - 18.006} height="24.351" preserveAspectRatio="xMidYMid meet" />
         </g>
-        <g clipPath="url(#pillClipProcessing)">
-          <motion.g clipPath="url(#revealClipProcessing)" style={{ opacity: overlayOpacity }}>
+        <g clipPath="url(#errorPillClip)">
+          <motion.g clipPath="url(#errorRevealClip)" style={{ opacity: overlayOpacity }}>
             <motion.rect x={0} y={0} height={PILL_H} fill={COLOR_ORDER[0]} style={{ width: segment0Width }} />
             <motion.rect x={segment1X} y={0} height={PILL_H} fill={COLOR_ORDER[1]} style={{ width: segment1Width }} />
             <motion.rect x={segment2X} y={0} height={PILL_H} fill={COLOR_ORDER[2]} style={{ width: segment2Width }} />

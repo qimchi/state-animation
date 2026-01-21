@@ -1,0 +1,110 @@
+.tx-error-animation-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+/* X Mark */
+.xmark-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  width: 72px;
+  height: 72px;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.xmark-container svg {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+/* Error Page */
+.error-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #FFFFFF;
+  z-index: 30;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.error-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.error-icon {
+  margin-bottom: 20px;
+}
+
+.error-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.error-message {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 24px 0;
+  line-height: 1.4;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.error-retry-btn {
+  padding: 12px 32px;
+  background: #FF3B30;
+  color: white;
+  border: none;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.error-retry-btn:hover {
+  background: #E6352B;
+}
+
+.error-retry-btn:active {
+  background: #CC2F26;
+}
+
+/* Red Overlay */
+.red-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #FF3B30;
+  z-index: 35;
+  pointer-events: none;
+}
